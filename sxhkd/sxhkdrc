@@ -2,29 +2,56 @@
 # wm independent hotkeys
 #
 
-# terminal emulator
+# run terminal emulator
 super + Return
 	termite
 
-# program launcher
+# run program launcher
 super + d
 	rofi -show drun
 
-# make sxhkd reload its configuration files:
+# make sxhkd reload its configuration files
 super + Escape
 	pkill -USR1 -x sxhkd
 
-# slock as screen locker
+# take a screenshot
+Print
+	scrot
+
+#
+# Volume control
+#
+
+ctrl + alt + j
+	amixer sset Master 1%-
+
+ctrl + alt + k
+	amixer sset Master 1%+
+
+ctrl + alt + m
+	amixer sset Master toggle
+
+#
+# Brightness control
+#
+
+ctrl + alt + h
+	xbacklight -1
+
 ctrl + alt + l
-	slock
+	xbacklight +1
 
 #
 # bspwm hotkeys
 #
 
-# quit/restart bspwm
-super + alt + {q,r}
-	bspc {quit,wm -r}
+# restart bspwm
+super + alt + r
+	bspc wm -r
+
+# logout menu
+super + alt + q
+	bash ~/.config/rofi/logout.sh
 
 # close and kill
 super + {_,shift + }w
@@ -34,25 +61,24 @@ super + {_,shift + }w
 super + m
 	bspc desktop -l next
 
-# send the newest marked node to the newest preselected node
-super + y
-	bspc node newest.marked.local -n newest.!automatic.local
-
 # swap the current node and the biggest node
 super + g
 	bspc node -s biggest
 
+# hide the cureent node
+super + v
+	bspc node -g hidden
+
+super + shift + v
+	bspc node {,$(bspc query -N -n .hidden | tail -n1)} -g hidden=off
+
 #
-# state/flags
+# state
 #
 
 # set the window state
 super + {t,shift + t,s,f}
 	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
-
-# set the node flags
-super + ctrl + {m,x,y,z}
-	bspc node -g {marked,locked,sticky,private}
 
 #
 # focus/swap
@@ -60,14 +86,7 @@ super + ctrl + {m,x,y,z}
 
 # focus the node in the given direction
 super + {_,shift + }{h,j,k,l}
-	bspc node -{f,s} {west,south,north,east}
-super + {_,shift + }{Left,Down,Up,Right}
-	bspc node -{f,s} {west,south,north,east}
-
-
-# focus the node for the given path jump
-super + {p,b,comma,period}
-	bspc node -f @{parent,brother,first,second}
+	bspc node -{f,n} {west,south,north,east}
 
 # focus the next/previous node in the current desktop
 alt + {_,shift + }Tab
@@ -98,8 +117,6 @@ super + {_,shift + }{1-9,0}
 # preselect the direction
 super + ctrl + {h,j,k,l}
 	bspc node -p {west,south,north,east}
-super + ctrl + {Left,Down,Up,Right}
-	bspc node -p {west,south,north,east}
 
 # preselect the ratio
 super + ctrl + {1-9}
@@ -120,11 +137,7 @@ super + ctrl + shift + space
 # expand a window by moving one of its side outward
 super + alt + {h,j,k,l}
 	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
-super + alt + {Left,Down,Up,Right}
-	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
 
 # contract a window by moving one of its side inward
 super + alt + shift + {h,j,k,l}
-	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
-super + alt + shift + {Left,Down,Up,Right}
 	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
