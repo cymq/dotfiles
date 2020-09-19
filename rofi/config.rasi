@@ -1,7 +1,7 @@
 /**
  * ROFI Color theme
  * User: Rokit
-*/
+ */
 
 * {
   base-bg: #d9d6b7ee;
@@ -11,7 +11,7 @@
   border-color: #00000066;
   transparent: #00000000;
   text-color: @base-color;
-  font: "Jost Regular 10";
+  font: "Jost Regular 14";
 }
 #window {
   anchor: south;
